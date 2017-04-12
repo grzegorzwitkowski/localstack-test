@@ -11,11 +11,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.aws.messaging.config.annotation.EnableSqs;
 import org.springframework.cloud.aws.messaging.core.QueueMessagingTemplate;
-import org.springframework.cloud.aws.messaging.listener.annotation.SqsListener;
 import org.springframework.context.annotation.Bean;
-import org.springframework.messaging.Message;
-import org.springframework.messaging.support.MessageBuilder;
-import org.springframework.messaging.support.MessageHeaderAccessor;
+import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -42,7 +39,7 @@ public class Main {
         SpringApplication.run(Main.class, args);
     }
 
-    @SqsListener("test-queue")
+    @MessageMapping("test-queue")
     public void onMessage(TestMessage testMessage) {
         System.out.println("test-queue received a new message: " + testMessage);
     }
@@ -53,15 +50,8 @@ public class Main {
     }
 
     @RequestMapping(path = "/messages", method = POST)
-    public void sendMessage(@RequestBody TestMessage testMessage) throws Exception {
-        String payload = objectMapper.writeValueAsString(testMessage);
-        MessageHeaderAccessor messageHeaderAccessor = new MessageHeaderAccessor();
-        messageHeaderAccessor.removeHeader("timestamp");
-        Message<String> message = MessageBuilder
-                        .withPayload(payload)
-                        .setHeaders(messageHeaderAccessor)
-                        .build();
-        messagingTemplate.send("test-queue", message);
+    public void sendMessage(@RequestBody TestMessage testMessage) {
+        messagingTemplate.convertAndSend("test-queue", testMessage);
     }
 
     @Bean

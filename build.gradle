@@ -10,5 +10,4 @@ repositories {
 dependencies {
     compile "org.springframework.boot:spring-boot-starter-web:1.5.2.RELEASE"
     compile 'org.springframework.cloud:spring-cloud-aws-messaging:1.2.0.RELEASE'
-    compile 'org.projectlombok:lombok:1.16.16'
 }
