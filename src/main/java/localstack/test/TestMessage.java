@@ -18,6 +18,6 @@ public class TestMessage {
 
     @Override
     public String toString() {
-        return "TestMessage{property1='" + property1 + "'}";
+        return "TestMessage{property1='" + getProperty1() + "'}";
     }
 }
