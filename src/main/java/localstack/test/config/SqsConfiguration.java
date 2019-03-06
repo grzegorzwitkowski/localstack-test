@@ -9,13 +9,15 @@ import org.springframework.cloud.aws.messaging.config.annotation.EnableSqs;
 import org.springframework.cloud.aws.messaging.core.QueueMessagingTemplate;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 
 @Configuration
 @EnableSqs
 public class SqsConfiguration {
 
     @Bean
-    public AmazonSQSAsync amazonSQS() {
+    @Primary
+    public AmazonSQSAsync amazonSQSClient() {
         return AmazonSQSAsyncClientBuilder.standard()
                 .withEndpointConfiguration(
                         new AwsClientBuilder.EndpointConfiguration("http://localhost:4576", "eu-west-1")
