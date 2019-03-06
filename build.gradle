@@ -1,4 +1,7 @@
-apply plugin: 'java'
+plugins {
+    id 'java'
+    id 'application'
+}
 
 group 'com.github.grzegorzwitkowski'
 version '1.0-SNAPSHOT'
@@ -8,6 +11,8 @@ repositories {
 }
 
 dependencies {
-    compile "org.springframework.boot:spring-boot-starter-web:1.5.2.RELEASE"
+    compile "org.springframework.boot:spring-boot-starter-web:1.4.6.RELEASE"
     compile 'org.springframework.cloud:spring-cloud-aws-messaging:1.2.0.RELEASE'
 }
+
+mainClassName = 'localstack.test.Main'
